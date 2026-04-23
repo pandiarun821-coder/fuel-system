@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Fuel System Dashboard 🚀</h1>
+
+  <div id="menu">
+    <button onclick="openFuel()">⛽ Fuel Indent</button>
+    <button onclick="openGate()">🚪 Gate Pass</button>
+    <button onclick="search()">🔍 Search</button>
+  </div>
+
+  <script>
+    function openFuel() {
+      window.location.href = "fuel.html";
+    }
+
+    function openGate() {
+      window.location.href = "gatepass.html";
+    }
+
+    function search() {
+      alert("Search coming next step");
+    }
+  </script>
+
+</body>
+</html>
+<h3>Search Records 🔍</h3>
+
+<input id="searchBox" placeholder="Enter Vehicle No">
+<button onclick="searchFuel()">Search Fuel</button>
+<button onclick="searchGate()">Search GatePass</button>
+
+<pre id="result"></pre>
+
+<script>
+async function searchFuel() {
+  const v = document.getElementById("searchBox").value;
+
+  const res = await fetch(`/api/fuel/search?vehicleNo=${v}`);
+  const data = await res.json();
+
+  document.getElementById("result").innerText =
+    JSON.stringify(data, null, 2);
+}
+
+async function searchGate() {
+  const v = document.getElementById("searchBox").value;
+
+  const res = await fetch(`/api/gatepass/search?vehicleNo=${v}`);
+  const data = await res.json();
+
+  document.getElementById("result").innerText =
+    JSON.stringify(data, null, 2);
+}
+</script>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+</head>
+<body>
+
+<h2>Fuel System Dashboard</h2>
+
+<p id="userInfo"></p>
+
+<button onclick="openFuel()">Fuel Indent</button>
+<button onclick="openGatepass()">Gatepass</button>
+
+<script>
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user) {
+    window.location.href = "/login.html";
+  }
+
+  document.getElementById("userInfo").innerText =
+    "Logged in as: " + user.username + " (" + user.role + ")";
+
+  function openFuel() {
+    window.location.href = "/fuel.html";
+  }
+
+  function openGatepass() {
+    window.location.href = "/gatepass.html";
+  }
+</script>
+
+</body>
+</html>
+if (user.role === "sub") {
+  // later we will disable edit/delete buttons
+}
+<table border="1" width="100%">
+  <thead>
+    <tr>
+      <th>FI No</th>
+      <th>Vehicle No</th>
+      <th>Model</th>
+      <th>KM</th>
+      <th>Fuel Type</th>
+    </tr>
+  </thead>
+  <tbody id="fuelData"></tbody>
+</table>

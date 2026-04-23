@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gate Pass</title>
+</head>
+<body>
+
+<h2>Gate Pass Form 🚪</h2>
+
+<form id="gpForm">
+
+  <p>Company: AADHI CARS PVT LTD</p>
+
+  <input id="rmName" placeholder="RM Name"><br><br>
+  <input id="customerName" placeholder="Customer Name"><br><br>
+  <input id="customerContact" placeholder="Contact No"><br><br>
+  <input id="vehicleNo" placeholder="Vehicle No"><br><br>
+  <input id="purpose" placeholder="Purpose"><br><br>
+  <input id="place" placeholder="Place"><br><br>
+
+  <select id="type">
+    <option>OUT</option>
+    <option>IN</option>
+  </select><br><br>
+
+  <button type="submit">Submit</button>
+
+</form>
+
+<script>
+document.getElementById("gpForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const data = {
+    rmName: document.getElementById("rmName").value,
+    customerName: document.getElementById("customerName").value,
+    customerContact: document.getElementById("customerContact").value,
+    vehicleNo: document.getElementById("vehicleNo").value,
+    purpose: document.getElementById("purpose").value,
+    place: document.getElementById("place").value,
+    type: document.getElementById("type").value
+  };
+
+  const res = await fetch("http://localhost:5000/api/gatepass/create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
+  alert(result.message);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fuel Indent</title>
+</head>
+<body>
+
+<h2>Fuel Indent Form ⛽</h2>
+
+<form id="fuelForm">
+
+  <p>Company: AADHI CARS PVT LTD</p>
+
+  <input id="vehicleNo" placeholder="Vehicle No"><br><br>
+  <input id="model" placeholder="Model"><br><br>
+  <input id="km" placeholder="KM"><br><br>
+  <input id="dseTl" placeholder="DSE / TL"><br><br>
+
+  <select id="fuelType">
+    <option>Petrol</option>
+    <option>Diesel</option>
+  </select><br><br>
+
+  <button type="submit">Submit</button>
+
+</form>
+
+<script>
+document.getElementById("fuelForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const data = {
+    vehicleNo: document.getElementById("vehicleNo").value,
+    model: document.getElementById("model").value,
+    km: document.getElementById("km").value,
+    dseTl: document.getElementById("dseTl").value,
+    fuelType: document.getElementById("fuelType").value
+  };
+
+  const res = await fetch("http://localhost:5000/api/fuel/create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
+  alert(result.message);
+});
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fuel Indent</title>
+</head>
+<body>
+
+<h2>Fuel Indent Form</h2>
+
+<input id="vehicleNumber" placeholder="Vehicle Number" />
+<input id="driverName" placeholder="Driver Name" />
+
+<select id="fuelType">
+  <option>Diesel</option>
+  <option>Petrol</option>
+</select>
+
+<input id="liters" type="number" placeholder="Liters" />
+
+<button onclick="submitFuel()">Submit</button>
+
+<p id="msg"></p>
+
+<script>
+async function submitFuel() {
+  const data = {
+    vehicleNumber: document.getElementById("vehicleNumber").value,
+    driverName: document.getElementById("driverName").value,
+    fuelType: document.getElementById("fuelType").value,
+    liters: document.getElementById("liters").value
+  };
+
+  const res = await fetch("/api/fuel/create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
+
+  document.getElementById("msg").innerText = result.message;
+}
+</script>
+
+</body>
+</html>
+<script>
+async function submitFuel() {
+  const data = {
+    fiNo: document.getElementById("fiNo").value,
+    vehicleNo: document.getElementById("vehicleNo").value,
+    model: document.getElementById("model").value,
+    km: document.getElementById("km").value,
+    fuelType: document.getElementById("fuelType").value,
+    createdBy: "admin"
+  };
+
+  const res = await fetch("http://localhost:5000/api/fuel/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
+  alert(result.message);
+}
+</script>
+<button onclick="submitFuel()">Submit Fuel</button>
+<script>
+async function loadFuelData() {
+  const res = await fetch("http://localhost:5000/api/fuel/all");
+  const data = await res.json();
+
+  let rows = "";
+
+  data.forEach(item => {
+    rows += `
+      <tr>
+        <td>${item.fiNo}</td>
+        <td>${item.vehicleNo}</td>
+        <td>${item.model}</td>
+        <td>${item.km}</td>
+        <td>${item.fuelType}</td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("fuelData").innerHTML = rows;
+}
+
+loadFuelData();
+</script>

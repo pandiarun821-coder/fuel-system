@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body>
+
+  <h2>Fuel System Login</h2>
+
+  <input id="username" placeholder="Username" />
+  <input id="password" type="password" placeholder="Password" />
+  <button onclick="login()">Login</button>
+
+  <p id="msg"></p>
+
+  <script>
+    async function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // STORE USER (basic session)
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        document.getElementById("msg").innerText = "Login Success";
+
+        // redirect
+        window.location.href = "/dashboard.html";
+      } else {
+        document.getElementById("msg").innerText = data.message;
+      }
+    }
+  </script>
+
+</body>
+</html>
